@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 import { IoIosAddCircle } from "react-icons/io";
 import Characterestics from "@/components/Characterestics"
 import { addCharacteristics } from "@/actions/chatbot";
-import { base_url } from "@/app/layout";
+
 
 
 
@@ -19,6 +19,9 @@ const Page = ({ params }) => {
   const [chars, setChars] = useState([])
 
   const router = useRouter()
+
+   const base_url = `http://localhost:3000` 
+
 
   // get chatbot details
   const getChat = async () => {
