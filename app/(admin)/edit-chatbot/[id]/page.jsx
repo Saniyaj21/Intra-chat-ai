@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import { IoIosAddCircle } from "react-icons/io";
 import Characterestics from "@/components/Characterestics"
 import { addCharacteristics } from "@/actions/chatbot";
+import { base_url } from "@/app/layout";
 
 
 
@@ -57,7 +58,7 @@ const Page = ({ params }) => {
   }
 
   useEffect(() => {
-    setUrl(`http://localhost:3000/chatbot/${params.id}`)
+    setUrl(`${base_url}/chatbot/${params.id}`)
     getChat()
     getChatChars()
     console.log("validate");
