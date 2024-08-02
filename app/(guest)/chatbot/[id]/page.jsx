@@ -7,7 +7,7 @@ import axios from "axios"
 import { useEffect, useState } from "react"
 
 
-const page = ({ params }) => {
+const Page = ({ params }) => {
 
     const [name, setName] = useState("")
     const [email, setEmail] = useState("")
@@ -119,4 +119,4 @@ const page = ({ params }) => {
     )
 }
 
-export default page
+export default Page

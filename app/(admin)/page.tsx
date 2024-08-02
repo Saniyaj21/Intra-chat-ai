@@ -1,7 +1,7 @@
 import Link from "next/link"
 
 
-const page = () => {
+const Page = () => {
   
   return (
     <div className=" shadow-md px-10 py-5 mt-10 border-2 rounded-md">
@@ -15,4 +15,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page

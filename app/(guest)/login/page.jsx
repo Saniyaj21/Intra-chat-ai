@@ -1,6 +1,6 @@
 import { SignIn } from "@clerk/nextjs"
 
-const page = () => {
+const Page = () => {
   return (
     <div className="flex h-screen justify-center items-center">
      <SignIn routing="hash" fallbackRedirectUrl={'/'}/>
@@ -8,4 +8,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page

@@ -6,7 +6,7 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import SessionCard from '@/components/SessionCards'
 
-const page = () => {
+const Page = () => {
   const [allChatbots, setAllChatbots] = useState([])
 
   const getAllChatbots = async () => {
@@ -40,4 +40,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page
