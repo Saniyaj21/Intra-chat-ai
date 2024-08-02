@@ -22,5 +22,5 @@ const chatSessionSchema = new Schema({
 
 const ChatSession = mongoose.models.ChatSession || mongoose.model('ChatSession', chatSessionSchema);
 
-export default Guest;
+export default ChatSession;
 
