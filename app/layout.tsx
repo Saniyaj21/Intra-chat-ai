@@ -9,10 +9,10 @@ import {
 export const base_url = `http://localhost:3000` 
 
 
-export const metadata: Metadata = {
-  title: "IntraChat AI",
-  description: "The chatbot facilitates conversations and interactions among members of the organization, leveraging internal data and context to provide relevant and helpful responses",
-};
+// export const metadata: Metadata = {
+//   title: "IntraChat AI",
+//   description: "The chatbot facilitates conversations and interactions among members of the organization, leveraging internal data and context to provide relevant and helpful responses",
+// };
 
 export default function RootLayout({
   children,
