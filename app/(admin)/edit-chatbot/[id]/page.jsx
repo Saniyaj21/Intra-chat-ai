@@ -20,7 +20,7 @@ const Page = ({ params }) => {
 
   const router = useRouter()
 
-   const base_url = `http://localhost:3000` 
+   const base_url = `https://intra-chat-ai.vercel.app` 
 
 
   // get chatbot details
