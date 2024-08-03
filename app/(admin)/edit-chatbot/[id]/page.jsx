@@ -83,8 +83,8 @@ const Page = ({ params }) => {
   }
 
   return (
-    <div className='min-h-screen flex flex-col items-center justify-start bg-gray-100 pb-8'>
-      <div className='p-6 m-10 bg-white rounded shadow-lg w-full max-w-md'>
+    <div className='  overflow-hidden min-h-screen px-4 flex flex-col items-center justify-start bg-gray-100 pb-8'>
+      <div className='p-6 my-10 bg-white rounded shadow-lg w-full max-w-md'>
         <h1 className='text-xl font-bold text-green-600 mb-4'>Link to your Chatbot</h1>
         <p className='mb-4'>Share this link with your customers to start conversations with your chatbot.</p>
         <div className='flex items-center'>
@@ -92,7 +92,7 @@ const Page = ({ params }) => {
             value={url}
             readOnly
             type="text"
-            className='border border-gray-300 rounded-l p-2 flex-grow'
+            className='border overflow-x-scroll border-gray-300 rounded-l p-2 flex-grow'
           />
           <button
             onClick={copyToClipboard}
@@ -134,7 +134,7 @@ const Page = ({ params }) => {
             </form>
           </div>
 
-          <div className="border-2  my-8 px-2 rounded">
+          <div className=" my-8  rounded">
             <ul className="flex flex-wrap-reverse gap-4 py-4">
               {
                 chars.map((char, index) => (

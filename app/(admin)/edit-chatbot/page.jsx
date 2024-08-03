@@ -8,9 +8,12 @@ import React, { useEffect, useState } from 'react'
 
 const Page = () => {
   const [allChatbots, setAllChatbots] = useState([])
+  const [loading, setLoading] = useState(false)
 
   const getAllChatbots = async () => {
+    setLoading(true)
     const { data } = await axios.get(`/api/chatbot/all`)
+    setLoading(false)
     setAllChatbots(data.chatbots)
   }
 
@@ -26,6 +29,11 @@ const Page = () => {
 
       {/* all chatbots */}
       <div className='flex  mt-8 flex-col flex-wrap-reverse items-center gap-6'>
+        {
+          loading && <p className='text-blue-400 font-semibold'>Loading ChatBots..</p>
+        }
+
+
         {
           allChatbots && allChatbots.map((chatbot) => (
             <Link href={`/edit-chatbot/${chatbot._id}`} key={chatbot._id}
