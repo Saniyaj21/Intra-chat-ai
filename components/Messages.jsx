@@ -19,12 +19,8 @@ TimeAgo.addDefaultLocale(en)
 TimeAgo.addLocale(ru)
 
 const Messages = ({ message }) => {
-    const path = usePathname()
-    const isReviewsPage = path.includes("review-sessions")
 
-    console.log(message)
     const ref = useRef(null)
-
 
     useEffect(() => {
         if (ref.current) {
@@ -40,11 +36,8 @@ const Messages = ({ message }) => {
                     :
                     <UserMessage message={message} />
             }
-
             <div ref={ref} />
         </div>
-
-
     )
 }
 
@@ -53,18 +46,15 @@ export default Messages
 const AIMessage = ({ message }) => {
     return (
         <div className="flex items-start gap-2  border border-blue-400 rounded-lg px-4 py-2 bg-slate-200 my-2">
-
-                <span className="pt-1"><FaRobot /></span>
+            <span className="pt-1"><FaRobot /></span>
             <div>
                 <div>
                     <Markdown remarkPlugins={remarkGfm} className={'break-words'}>
-
                         {message.content}
                     </Markdown>
                 </div>
                 <div className="text-sm mt-1">
-                <ReactTimeAgo date={new Date(message.created_at)} locale="en-US"/>
-                  
+                    <ReactTimeAgo date={new Date(message.created_at)} locale="en-US" />
                 </div>
             </div>
         </div>
@@ -80,8 +70,7 @@ const UserMessage = ({ message }) => {
                     {message.content}
                 </div>
                 <div className="text-sm mt-1">
-                <ReactTimeAgo date={new Date(message.created_at)} locale="en-US"/>
-                  
+                    <ReactTimeAgo date={new Date(message.created_at)} locale="en-US" />
                 </div>
             </div>
         </div>

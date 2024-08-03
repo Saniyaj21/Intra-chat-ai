@@ -1,6 +1,5 @@
 'use client'
 
-
 import Avatar from "@/components/Avatar"
 import Messages from "@/components/Messages"
 import axios from "axios"
@@ -12,7 +11,7 @@ const Page = ({ params }) => {
     const [name, setName] = useState("")
     const [email, setEmail] = useState("")
     const [isOpen, setIsOpen] = useState(true)
-    const [loading, setLoding] = useState("")
+    const [loading, setLoading] = useState("")
     const [messages, setMessages] = useState([])
     const [chatbot, setChatbot] = useState("")
     const [sessionId, setSessionId] = useState("")
@@ -24,29 +23,23 @@ const Page = ({ params }) => {
             return
         }
         setIsOpen(!open)
-
         const id = params.id
-
-
         // create chat sesson 
         const { data } = await axios.post(`/api/chatbot?id=${params.id}`, {
             name, email, id
         })
         setSessionId(data.chatSession._id)
-
     }
 
     // Displaying the chat details in head
     const getChat = async () => {
-        const res = await axios.get(`/api/chatbot?id=${params.id}`)
-        setChatbot(res.data.chatbot)
-        console.log(res.data);
+        const { data } = await axios.get(`/api/chatbot?id=${params.id}`)
+        setChatbot(data.chatbot)
     }
 
     // get all messgaes of sessionId
     const getAllSessionMessages = async () => {
         const { data } = await axios.get(`/api/messages/session-messages?session_id=${sessionId}`)
-        console.log("Jaduuuuuuuu", data);
         setMessages(data.messages)
     }
     // get send messages
@@ -61,19 +54,19 @@ const Page = ({ params }) => {
             created_at: date
         }])
         setSendMessage('')
+        setLoading(true)
         const { data } = await axios.post(`/api/messages/send?session_id=${sessionId}&chat_id=${params.id}`, {
             message: sendMessage,
             sender: "user",
             name
         })
-        console.log("send message", data);
+        setLoading(false)
         setMessages(data.allMessages)
     }
 
     useEffect(() => {
         getChat()
         getAllSessionMessages()
-        console.log(params);
     }, [params.id, sessionId])
 
     return (
@@ -104,11 +97,16 @@ const Page = ({ params }) => {
                                 <Messages message={message} key={message._id} />
                             ))
                         }
+
+                        {
+                            loading &&  <p className="text-blue-400 font-semibold">Thinking...</p>
+                        }
+                       
                     </div>
                     <div className="absolute bottom-0 w-full p-4 bg-gray-100 border-t border-gray-300">
                         <form onSubmit={sendMessageHandler} className="flex gap-2">
                             <input onChange={(e) => setSendMessage(e.target.value)} value={sendMessage} type="text" className="flex-1 px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Type your message..." />
-                            <button className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">Send</button>
+                            <button disabled={loading} className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">Send</button>
                         </form>
                     </div>
 

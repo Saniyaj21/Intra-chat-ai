@@ -17,10 +17,12 @@ const Page = ({ params }) => {
   const [chatbotName, setChatbotName] = useState("")
   const [characteristics, setCharacteristics] = useState("")
   const [chars, setChars] = useState([])
+  const [loading, setLoading] = useState(false)
 
   const router = useRouter()
 
-   const base_url = `https://intra-chat-ai.vercel.app` 
+  // const base_url = `http://localhost:3000`
+  const base_url = `https://intra-chat-ai.vercel.app`
 
 
   // get chatbot details
@@ -36,26 +38,30 @@ const Page = ({ params }) => {
 
   //  delete a chatbot
   const handleDeleteChat = async () => {
+    setLoading(true)
     const res = await axios.delete(`/api/chatbot?id=${params.id}`)
     if (res.status == 200) {
       router.push('/create-chatbot')
     }
+    setLoading(false)
   }
+
+
   const deleteChar = async (id) => {
-    console.log("delete char", id);
-    const res = await axios.delete(`/api/chatbot/characteristics?char_id=${id}`)
-    // if (res.status == 200) {
-    //   router.push('/create-chatbot')
-    // }
+    setLoading(true)
+    await axios.delete(`/api/chatbot/characteristics?char_id=${id}`)
+    setLoading(false)
     await getChatChars()
   }
 
   const addCharacteristicsHandler = async (e) => {
     e.preventDefault()
+    setLoading(true)
     const formData = new FormData()
     formData.set("characteristics", characteristics)
     formData.set("chatbotId", params.id)
     await addCharacteristics(formData)
+    setLoading(false)
     setCharacteristics("")
     await getChatChars()
   }
@@ -64,7 +70,6 @@ const Page = ({ params }) => {
     setUrl(`${base_url}/chatbot/${params.id}`)
     getChat()
     getChatChars()
-    console.log("validate");
   }, [params.id, chars.length])
 
   // copy url to clipboard
@@ -98,13 +103,11 @@ const Page = ({ params }) => {
         {copySuccess && <p className='text-green-500 mt-2'>{copySuccess}</p>}
       </div>
 
-
       <div className='mt-10 w-full max-w-md'>
-
         <div className="flex justify-between items-center">
           <h2 className='text-2xl font-semibold mb-4'>Train Your ChatBot</h2>
 
-          <button onClick={handleDeleteChat} className='text-red-500 hover:text-red-700'>
+          <button disabled={loading} onClick={handleDeleteChat} className='text-red-500 hover:text-red-700'>
             <FaTrash />
           </button>
         </div>
@@ -120,34 +123,24 @@ const Page = ({ params }) => {
             Your chatbot is equipped with the folowing information to assist you in your conversations with your customes and users.
           </p>
 
-
-
           <div >
             <form onSubmit={addCharacteristicsHandler} className="flex justify-center items-center mt-4 w-full h-8 gap-2">
               {/* <form action={addCharacteristics} className="flex justify-center items-center mt-4 w-full h-8 gap-2"> */}
               <input onChange={(e) => setCharacteristics(e.target.value)} value={characteristics} className="border-2 outline-none px-3 border-blue-300 h-full rounded w-2/3" type="text" name="char" />
-              <button type="submit" className="w-1/3  flex justify-center items-center bg-blue-600 rounded text-white gap-2 h-full">
+              <button disabled={loading} type="submit" className="w-1/3  flex justify-center items-center bg-blue-600 rounded text-white gap-2 h-full">
                 <IoIosAddCircle />
                 Add
               </button>
             </form>
           </div>
 
-
           <div className="border-2  my-8 px-2 rounded">
             <ul className="flex flex-wrap-reverse gap-4 py-4">
-
-
               {
                 chars.map((char, index) => (
-                  <Characterestics key={index} char={char} deleteChar={deleteChar} />
+                  <Characterestics key={index} char={char} deleteChar={deleteChar} loading={loading} />
                 ))
-
               }
-
-
-
-
             </ul>
           </div>
         </div>

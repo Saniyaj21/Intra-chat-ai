@@ -1,7 +1,6 @@
 import { connectDB } from "@/db/connect";
 import { NextResponse } from "next/server";
 import Message from "@/models/message";
-import ChatSession from "@/models/chatSession";
 import Chatbot from "@/models/chatbot";
 // import OpenAI from 'openai'
 import ChatbotChar from "@/models/chatbotCharacteristics";
@@ -18,7 +17,6 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_AI_KEY);
 async function generateAIResponse(prompt) {
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
     const result = await model.generateContent(prompt);
-    console.log(prompt);
 
     const response = await result.response;
     return await response.text();
@@ -51,21 +49,15 @@ export async function POST(req) {
             `${message.sender}: ${message.content}`
         )).join(" + ");
 
-        console.log(characteristics);
-
         // Combine characteristics to a system prompt
         const systemPrompt = characteristics.map((char) => char.content).join(" + ");
 
         const messages = `You are a helpful assistant talking to ${body.name}. If a generic question is asked which is not relevant in the same scope or domain as the specific content, use emojis where possible. Here is some key information that you need to be aware of: ${systemPrompt} and previous conversations are ${formattedPreviousMessages}  now response as in markdown for ${body.message} `
 
-
         // Generate AI response
-        const aiResponse = await generateAIResponse(messages);
+        let aiResponse = await generateAIResponse(messages);
         if (!aiResponse) {
-            return NextResponse.json({
-                success: false,
-                message: "Error in processing the request",
-            }, { status: 500 });
+            aiResponse = "Unable to generate AI response. Please try again"
         }
 
         // Save the user message to db
@@ -90,8 +82,8 @@ export async function POST(req) {
             allMessages,
             success: true,
         }, { status: 200 });
+
     } catch (error) {
-        console.log(error.message);
         return NextResponse.json({
             success: false,
         });

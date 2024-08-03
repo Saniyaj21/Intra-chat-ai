@@ -10,15 +10,14 @@ const Page = ({ params }) => {
   const [session, setSession] = useState({})
 
   const getAllMessages = async () => {
-   try {
-    const {data} = await axios.get(`/api/messages/all?session_id=${params.id}`)
-    console.log("session id all messages",data);
-    setMessages(data.messages)
-    setGuest(data.guest.guest_id)
-    setSession(data.guest)
-   } catch (error) {
-    console.log(error);
-   }
+    try {
+      const { data } = await axios.get(`/api/messages/all?session_id=${params.id}`)
+      setMessages(data.messages)
+      setGuest(data.guest.guest_id)
+      setSession(data.guest)
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   useEffect(() => {
