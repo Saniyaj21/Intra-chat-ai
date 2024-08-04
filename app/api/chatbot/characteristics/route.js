@@ -5,7 +5,7 @@ import { NextResponse } from "next/server";
 
 export async function GET(req) {
 	try {
-		connectDB()
+		await connectDB()
 		const id = req.nextUrl.searchParams.get('id');
 	
 		const chars = await ChatbotChar.find({

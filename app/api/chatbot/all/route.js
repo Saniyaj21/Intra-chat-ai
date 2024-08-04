@@ -7,7 +7,7 @@ import { NextResponse } from "next/server";
 
 export async function GET(req) {
     try {
-        connectDB()
+        await connectDB()
         const { userId } = auth();
 
         const chatbots = await Chatbot.find({

@@ -5,7 +5,7 @@ import Message from "@/models/message";
 export async function GET(req) {
 
 	try {
-		connectDB()
+		await connectDB()
 		const session_id = req.nextUrl.searchParams.get('session_id');
 
 		const messages = await Message.find({

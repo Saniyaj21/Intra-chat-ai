@@ -16,11 +16,13 @@ const SessionCards = ({ chatbot }) => {
 
     const [open, setOpen] = useState(false)
     const [sessions, setSessions] = useState([])
+    const [loading, setLoading] = useState(true)
 
     const getSessions = async () => {
+        setLoading(true)
         const { data } = await axios.get(`/api/chatbot/sessions?chatbot_id=${chatbot._id}`)
         setSessions(data.sessions)
-        console.log(data);
+        setLoading(false)
 
     }
 
@@ -32,11 +34,14 @@ const SessionCards = ({ chatbot }) => {
         <div className='flex flex-col justify-center gap-6 border p-5 shadow-md rounded w-[90%] max-w-[500px]'>
             <div>
                 <h1 className='font-semibold text-lg'>{chatbot.name}</h1>
-                <p className='font-normal text-sm'> Active Chats  : {sessions ? sessions.length : 0}</p>
+                {
+                    loading ? <p className='text-blue-400 font-semibold'>Loading Chats...</p> : <p className='font-normal text-sm'> Active Chats  : {sessions ? sessions.length : 0}</p>
+                }
+                
 
             </div>
             <div className=''>
-                {sessions && <button onClick={() => setOpen(!open)} className='text-white font-bold border bg-blue-500 rounded py-2 px-4 '>{open ? "Hide " : "View "}Chats</button>}
+                {!loading && sessions && <button onClick={() => setOpen(!open)} className='text-white font-bold border bg-blue-500 rounded py-2 px-4 '>{open ? "Hide " : "View "}Chats</button>}
                 <div className={`${open ? "h-[100%]" : "h-0"} overflow-hidden `}>
                     {
                         sessions && sessions.map(session => (
